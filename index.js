@@ -35,7 +35,7 @@ module.exports = class daysuntil extends Plugin {
 			var am = "AM"
 			if (this.settings.get("boring")) { am = "" }
 			if (hour = 12 && !this.settings.get('boring')) { hour = 12; am = "PM" }
-			else if (hour > 12 && !this.settings.get('boring')) { hour -= 12; am = "PM" }
+			else if (hour > 12 && !this.settings.get('boring')) { hour -= 11; am = "PM" }
 
 			var min = + date.getMinutes().toString()
 
