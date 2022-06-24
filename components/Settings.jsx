@@ -10,7 +10,7 @@ module.exports = class daysuntilSettings extends React.PureComponent {
         this.state = {
             enabled: this.props.getSetting('enabled', false),
             date: this.props.getSetting('date', "25/12/22"),
-            event: this.props.getSetting('event', "Christmas!"),
+            event: this.props.getSetting('event', "{days} until Christmas!"),
             time: this.props.getSetting('time', false),
             boring: this.props.getSetting('boring', false)
         }
@@ -64,7 +64,7 @@ module.exports = class daysuntilSettings extends React.PureComponent {
                 </TextInput>
 
                 <TextInput
-                    note="Enter the name of the event!"
+                    note="Status string - Use {days} for days remaining"
                     defaultValue={this.state.event}
                     onChange={(value) => {
                         this.setState({ event: value })

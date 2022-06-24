@@ -25,10 +25,7 @@ module.exports = class daysuntil extends Plugin {
 
 	async start()
 	{
-		if (!this.settings.get('enabled')) {
-			// trollage
-		}
-		else if (this.settings.get('time'))
+		if (this.settings.get('time'))
 		{
 			var date = new Date()
 			let hour = date.getHours().toString()
@@ -36,6 +33,7 @@ module.exports = class daysuntil extends Plugin {
 			var am = "AM"
 			if (this.settings.get("boring")) { am = "" }
 			if (hour == 12 && !this.settings.get('boring')) { hour = 12; am = "PM" }
+			else if (hour == 0 && !this.settings.get('boring')) { hour = 12; am = "AM" }
 			else if (hour > 12 && !this.settings.get('boring')) { hour -= 12; am = "PM" }
 
 			var min = + date.getMinutes().toString()
@@ -59,20 +57,20 @@ module.exports = class daysuntil extends Plugin {
 				var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]); 
 				var eventdate = new Date(dateObject);
 	
-				var days = Math.round( (eventdate.getTime() - date.getTime()) / 1000000 * 0.0115740741 )
+				var days = Math.ceil( (eventdate.getTime() - date.getTime()) / 1000000 * 0.0115740741 )
 				
-				var until = days + " days until " + this.settings.get('event')
+				var until = this.settings.get('event').replace('{days}', days)
+
+				require('powercord/webpack').getModule([''])
 
 				if (oldstatus != until)
 				{
 					oldstatus = until
 					this.status(oldstatus)
 				}
-
-				
 			}
-			catch {
-				console.log("Invalid date")
+			catch (e) {
+				console.log(e)
 			}
 		}
 
