@@ -61,8 +61,6 @@ module.exports = class daysuntil extends Plugin {
 				
 				var until = this.settings.get('event').replace('{days}', days)
 
-				require('powercord/webpack').getModule([''])
-
 				if (oldstatus != until)
 				{
 					oldstatus = until
