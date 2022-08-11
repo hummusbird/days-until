@@ -8,25 +8,23 @@ const Settings = require('./components/Settings');
 
 module.exports = class daysuntil extends Plugin {
 
-    async startPlugin() {
+	async startPlugin() {
 		this.loadStylesheet('style.scss');
-        
+
 		powercord.api.settings.registerSettings(this.entityID, {
 			category: this.entityID,
 			label: 'Days Until',
 			render: (props) => React.createElement(Settings, {
-                main: this,
-                ...props
-            })
+				main: this,
+				...props
+			})
 		});
 
 		this.start();
 	}
 
-	async start()
-	{
-		if (this.settings.get('time'))
-		{
+	async start() {
+		if (this.settings.get('time')) {
 			var date = new Date()
 			let hour = date.getHours().toString()
 
@@ -42,27 +40,23 @@ module.exports = class daysuntil extends Plugin {
 
 
 			var newtime = hour + ":" + min + " " + am
-			if (newtime != oldstatus)
-			{
+			if (newtime != oldstatus) {
 				oldstatus = newtime
 				this.status(oldstatus)
 			}
 		}
-		else if (!this.settings.get('time')) 
-		{
-			try
-			{
+		else if (!this.settings.get('time')) {
+			try {
 				var date = new Date()
 				var dateParts = this.settings.get('date').split("/");
-				var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]); 
+				var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
 				var eventdate = new Date(dateObject);
-	
-				var days = Math.ceil( (eventdate.getTime() - date.getTime()) / 1000000 * 0.0115740741 )
-				
+
+				var days = Math.ceil((eventdate.getTime() - date.getTime()) / 1000000 * 0.0115740741)
+
 				var until = this.settings.get('event').replace('{days}', days)
 
-				if (oldstatus != until)
-				{
+				if (oldstatus != until) {
 					oldstatus = until
 					this.status(oldstatus)
 				}
@@ -73,21 +67,22 @@ module.exports = class daysuntil extends Plugin {
 		}
 
 		setTimeout(() => {
-        	this.start();
-        }, 5000);
+			this.start();
+		}, 5000);
 	}
 
-	status(text)
-	{
-		require('powercord/webpack').getModule(['updateRemoteSettings'], false).updateRemoteSettings({
-            customStatus: {
-                text: text
-            }
-        });
-		console.log("set status to '" + text + "'")
+	status(text) {
+		require('powercord/webpack').getModule(["CustomStatusSetting"], false).CustomStatusSetting.updateSetting(
+			{
+				"text": text,
+				"emojiId": "0",
+				"emojiName": "",
+				"expiresAtMs": "0"
+			}
+		);
 	}
 
-    pluginWillUnload() {
+	pluginWillUnload() {
 		powercord.api.settings.unregisterSettings(this.entityID);
 	}
 }
