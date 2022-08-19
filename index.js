@@ -34,12 +34,11 @@ module.exports = class daysuntil extends Plugin {
 			else if (shorthour == 0) { shorthour = 12; am = "AM" }
 			else if (shorthour > 12) { shorthour -= 12; am = "PM" }
 
-			var min = + date.getMinutes().toString()
+			var longmin = date.getMinutes().toString()
+			var shortmin = date.getMinutes().toString()
+			if (longmin.toString().length == 1) { longmin = "0" + longmin }
 
-			if (min.toString().length == 1) { min = "0" + min }
-
-
-			var newtime = this.settings.get("timestring").replace("{h}", shorthour).replace("{H}", longhour).replace("{M}", min).replace("{A}", am)
+			var newtime = this.settings.get("timestring").replace("{h}", shorthour).replace("{H}", longhour).replace("{m}", shortmin).replace("{M}", longmin).replace("{A}", am)
 			if (newtime != oldstatus) {
 				oldstatus = newtime
 				this.status(oldstatus)

@@ -53,7 +53,7 @@ module.exports = class daysuntilSettings extends React.PureComponent {
                 </TextInput>
 
                 <TextInput
-                    note="Timestamp string - use {H} or {h} for hours, {M} for minutes and {A} for AM/PM"
+                    note="Timestamp string - use {H} or {h} for hours, {M} or {m} for minutes and {A} for AM/PM"
                     defaultValue={this.state.timestring}
                     onChange={(value) => {
                         this.setState({ timestring: value })
