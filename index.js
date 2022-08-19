@@ -26,20 +26,20 @@ module.exports = class daysuntil extends Plugin {
 	async start() {
 		if (this.settings.get('time')) {
 			var date = new Date()
-			let hour = date.getHours().toString()
-
+			let longhour = date.getHours().toString()
+			let shorthour = date.getHours().toString()
 			var am = "AM"
-			if (this.settings.get("boring")) { am = "" }
-			if (hour == 12 && !this.settings.get('boring')) { hour = 12; am = "PM" }
-			else if (hour == 0 && !this.settings.get('boring')) { hour = 12; am = "AM" }
-			else if (hour > 12 && !this.settings.get('boring')) { hour -= 12; am = "PM" }
+
+			if (shorthour == 12) { shorthour = 12; am = "PM" }
+			else if (shorthour == 0) { shorthour = 12; am = "AM" }
+			else if (shorthour > 12) { shorthour -= 12; am = "PM" }
 
 			var min = + date.getMinutes().toString()
 
 			if (min.toString().length == 1) { min = "0" + min }
 
 
-			var newtime = hour + ":" + min + " " + am
+			var newtime = this.settings.get("timestring").replace("{h}", shorthour).replace("{H}", longhour).replace("{M}", min).replace("{A}", am)
 			if (newtime != oldstatus) {
 				oldstatus = newtime
 				this.status(oldstatus)

@@ -10,9 +10,9 @@ module.exports = class daysuntilSettings extends React.PureComponent {
         this.state = {
             enabled: this.props.getSetting('enabled', false),
             date: this.props.getSetting('date', "25/12/22"),
+            timestring: this.props.getSetting('timestring', "{H}:{M} {A}"),
             event: this.props.getSetting('event', "{days} until Christmas!"),
             time: this.props.getSetting('time', false),
-            boring: this.props.getSetting('boring', false)
         }
     }
 
@@ -41,17 +41,6 @@ module.exports = class daysuntilSettings extends React.PureComponent {
                 Timestamp   
                 </SwitchItem>
 
-                <SwitchItem
-                    note="Use 24 hour time, if timestamp is set as status"
-                    value={this.state.boring}
-                    onChange={() => {
-                        this.setState({boring: !this.state.boring})
-                        this.props.toggleSetting('boring')
-                    }}
-                >
-                24 hour   
-                </SwitchItem>
-
                 <TextInput
                     note="Enter the date here, in the format DD/MM/YYYY"
                     defaultValue={this.state.date}
@@ -64,14 +53,25 @@ module.exports = class daysuntilSettings extends React.PureComponent {
                 </TextInput>
 
                 <TextInput
-                    note="Status string - Use {days} for days remaining"
+                    note="Timestamp string - use {H} or {h} for hours, {M} for minutes and {A} for AM/PM"
+                    defaultValue={this.state.timestring}
+                    onChange={(value) => {
+                        this.setState({ timestring: value })
+                        this.props.updateSetting('timestring', value)
+                    }}
+                >
+                Timestamp Custom Status
+                </TextInput>
+
+                <TextInput
+                    note="Event string - Use {days} for days remaining"
                     defaultValue={this.state.event}
                     onChange={(value) => {
                         this.setState({ event: value })
                         this.props.updateSetting('event', value)
                     }}
                 >
-                Event name
+                Event custom status
                 </TextInput>
             </div>
         );
