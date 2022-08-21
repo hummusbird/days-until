@@ -10,7 +10,7 @@ module.exports = class daysuntilSettings extends React.PureComponent {
         this.state = {
             enabled: this.props.getSetting('enabled', false),
             date: this.props.getSetting('date', "25/12/22"),
-            timestring: this.props.getSetting('timestring', "{H}:{M} {A}"),
+            timestring: this.props.getSetting('timestring', "{h}:{M} {A}"),
             event: this.props.getSetting('event', "{days} until Christmas!"),
             time: this.props.getSetting('time', false),
         }
